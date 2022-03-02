@@ -281,8 +281,9 @@ class CalcController {
     }
     
     else {
-        if(this._operations[0] === 0) {
+        if((this.getLastItemOperation().toString() === "0" && this.getLastItemOperation().toString() !== "0.") || this.getLastItemOperation() === 0) {
             this.setLastItemOperation(value);
+            this.setLasNumberToDisplay();
             return;
         }
         let lastNumber = this.getLastItemOperation().toString() + value;

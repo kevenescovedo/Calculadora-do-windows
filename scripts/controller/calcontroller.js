@@ -111,7 +111,7 @@ class CalcController {
                 this.deleteLastCaracterFromNumber();
                 break; 
             case "=":
-                   this.calc();
+                   try {this.calc()}catch(ex) { this._operations = []};
                     break;     
             case '±':
                if(!isNaN(this.getLastItemOperation())) this.changeSinal();
@@ -255,10 +255,16 @@ class CalcController {
     }
     addOperation(value) {
      if(isNaN(this.getLastItemOperation())) {
-      
+      console.log('entrou é um operador')
      if(this.isOperator(value) && this._operations.length != 0) {
         this.setLastItemOperation(value);
     }else if(!isNaN(value)) {
+        if(this.isOperator(this._operations[0])) {
+            console.log('trocar');
+            this.setLastItemOperation(value);
+            this.setLasNumberToDisplay();
+            return;
+        }
         this._operations.push(value); 
         console.log("inserido ultimo");
         this.setLasNumberToDisplay();
@@ -275,20 +281,24 @@ class CalcController {
     }
     
     else {
-        
+        if(this._operations[0] === 0) {
+            this.setLastItemOperation(value);
+            return;
+        }
         let lastNumber = this.getLastItemOperation().toString() + value;
-        if(lastNumber.length > 2 && lastNumber[0] == '0') lastNumber.slice(0,1);
+        if(lastNumber.length < 2 && lastNumber[0] == '0') lastNumber.slice(0,1);
         this.setLastItemOperation(lastNumber);
         
         this.setLasNumberToDisplay();
     }
-
+    
      }
      
      console.log(this._operations);
     }
+
     deleteLastCaracterFromNumber() {
-   if(this._operations.length > 0 && !this.isOperator(this.getLastItemOperation())) {
+   if(this._operations.length > 0) {
 
     let {lastNumber, index} = this.getLastNumber();
      console.log('lengtht',lastNumber.toString().length);
@@ -302,10 +312,11 @@ class CalcController {
     
    
 
-    
     this.setLasNumberToDisplay(); 
    }
    
+   let index = this._operations.indexOf("");
+   this._operations = this._operations.filter(v => (v));
     }
     getLastNumber() {
         let lastNumber = 0;

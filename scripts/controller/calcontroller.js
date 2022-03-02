@@ -277,6 +277,7 @@ class CalcController {
     else {
         if(this.getLastItemOperation() == 0){
            this.setLastItemOperation(value);
+           this.setLasNumberToDisplay();
             return;
         }
         let lastNumber = this.getLastItemOperation().toString() + value;

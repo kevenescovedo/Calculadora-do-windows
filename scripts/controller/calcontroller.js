@@ -275,14 +275,11 @@ class CalcController {
     }
     
     else {
-        if(this.getLastItemOperation() == 0){
-           this.setLastItemOperation(value);
-           this.setLasNumberToDisplay();
-            return;
-        }
-        let lastNumber = this.getLastItemOperation().toString() + value;
         
+        let lastNumber = this.getLastItemOperation().toString() + value;
+        if(lastNumber.length > 2 && lastNumber[0] == '0') lastNumber.slice(0,1);
         this.setLastItemOperation(lastNumber);
+        
         this.setLasNumberToDisplay();
     }
 
